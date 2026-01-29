@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Hacker Login</title>
+<style>
+    body {
+        margin: 0;
+        background: black;
+        color: #00ff00;
+        font-family: monospace;
+        overflow: hidden;
+    }
+
+    canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+
+    .login {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0,0,0,0.8);
+        border: 1px solid #00ff00;
+        padding: 20px;
+        text-align: center;
+        z-index: 10;
+    }
+
+    input {
+        background: black;
+        border: 1px solid #00ff00;
+        color: #ff0000;
+        padding: 5px;
+        width: 220px;
+        outline: none;
+    }
+
+    button {
+        margin-top: 10px;
+        background: black;
+        border: 1px solid #00ff00;
+        color: #00ff00;
+        cursor: pointer;
+    }
+
+    .msg {
+        margin-top: 10px;
+    }
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="login">
+    <div>ENTER PASSWORD</div><br>
+    <input type="password" id="senha">
+    <br>
+    <button onclick="verificar()">LOGIN</button>
+    <div class="msg" id="msg"></div>
+</div>
+
+<script>
+/* MATRIX */
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+const tamanho = 16;
+const colunas = canvas.width / tamanho;
+const gotas = Array(Math.floor(colunas)).fill(0);
+
+function draw() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#00ff00";
+    ctx.font = tamanho + "px monospace";
+
+    for (let i = 0; i < gotas.length; i++) {
+        const texto = letras[Math.floor(Math.random() * letras.length)];
+        ctx.fillText(texto, i * tamanho, gotas[i] * tamanho);
+
+        if (gotas[i] * tamanho > canvas.height && Math.random() > 0.975)
+            gotas[i] = 0;
+
+        gotas[i]++;
+    }
+}
+setInterval(draw, 50);
+
+/* SENHA */
+function verificar() {
+    const input = document.getElementById("senha").value;
+    const msg = document.getElementById("msg");
+
+    if (/[^a-zA-Z\s]/.test(input)) {
+        msg.textContent = "? S?mbolos especiais n?o s?o permitidos, de especial j? basta voc?";
+        return;
+    }
+
+    if (input.toUpperCase() === "COR") {
+        msg.textContent = "https:/ww.invertextocom/?key=Z5XD91zLjD4i8pte&id=224877";
+    } else {
+        msg.textContent = "¿ seras ? ? por que nao tentas como respost¿";
+    }
+}
+</script>
+
+</body>
+</html>
